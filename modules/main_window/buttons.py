@@ -74,11 +74,11 @@ def unpause_music():
 def set_music(volume):
     pygame.mixer.music.set_volume(float(volume))
 
-
 def get_current_music():
     global current_music
     if current_music:
         return os.path.basename(current_music).encode('utf-8').decode('utf-8')  # Возвращает название файла без пути
+    main_window.after(1000, get_current_music)
     return "Нет"
 
 
@@ -167,6 +167,7 @@ def create_buttons(main_window):
                                )
     skip_button.place(x=274, y=165)
 
+    # Кнопка "Перемешать"
     mix_music_button = tk.CTkButton(main_window,
                                     image=Images.mix_music,
                                     text="",
@@ -191,19 +192,37 @@ def create_buttons(main_window):
     volume_slider.set(0.5) 
     volume_slider.place(x=278, y=420)
 
+    
     # Надпись "Текущий трек"
-    current_track_label = ctk.Text(main_window, 
+    current_track_label = tk.CTkLabel(main_window, 
                                   width=15,  
-                                  height=5,  
-                                  wrap=tk.WORD,  # Автоматический перенос текста
-                                  bg=main_window.cget("bg"),  
-                                  fg="BLUE", 
+                                  height=5,
+                                  bg_color=main_window.cget("bg"),  
+                                  fg_color="#808080", 
                                   font=("Arial", 12), 
-                                  bd=0,  
-                                  highlightthickness=0)
-    current_track_label.insert(tk.END, f"Текущий трек: {get_current_music()}") # Вставить текст
-    current_track_label.config(state=tk.DISABLED)  # Запретить редактирование текста
-    current_track_label.place(x=365, y=20)
+                                  text = f"Текущий трек: {get_current_music()}",
+                                  wraplength= 110,
+                                  
+                                  )
+    
+
+    # Надпись "Текущий трек"
+    # current_track_label = ctk.Text(main_window, 
+    #                               width=15,  
+    #                               height=5,  
+    #                               #wrap=tk.WORD,  # Автоматический перенос текста
+    #                               bg=main_window.cget("bg"),  
+    #                               fg="BLUE", 
+    #                               font=("Arial", 12), 
+    #                               #text = f"Текущий трек: {get_current_music()}",
+    #                               #wraplength= 30,
+    #                               #text = "фывфыввфывфывфывывфыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыыы"
+    #                               bd=0,  
+    #                               highlightthickness=0)
+    
+    # current_track_label.insert(tk.END, f"Текущий трек: {get_current_music()}") # Вставить текст
+    # current_track_label.config(state=tk.DISABLED)  # Запретить редактирование текста
+    current_track_label.place(x=305, y=20)
 
     # Фоновое изображение
     background_player = tk.CTkLabel(main_window, 
@@ -219,7 +238,7 @@ def create_buttons(main_window):
                                     height=19,
                                     wrap=tk.WORD,
                                     bg="#BDBDBD", 
-                                    fg="BLUE",
+                                    fg="#808080",
                                     font=("Arial", 12),
                                     bd=0,
                                     ) 
@@ -229,11 +248,12 @@ def create_buttons(main_window):
 
     
     def update_current_track_label():
-        current_track_label.config(state=tk.NORMAL)  # Разрешить редактирование текста
-        current_track_label.delete(1.0, tk.END)  # Удалить весь текст
-        current_track_label.insert(tk.END, f"Текущий трек: {get_current_music()}")  # Вставить новый текст
-        current_track_label.config(state=tk.DISABLED)  # Запретить редактирование текста
+        # current_track_label.config(state=tk.NORMAL)  # Разрешить редактирование текста
+        # current_track_label.delete(1.0, tk.END)  # Удалить весь текст
+        # current_track_label.insert(tk.END, f"Текущий трек: {get_current_music()}")  # Вставить новый текст
+        # current_track_label.config(state=tk.DISABLED)  # Запретить редактирование текста
+        current_track_label.configure(text=f"Текущий трек: {get_current_music()}")
         main_window.after(1000, update_current_track_label)
-
+    
 
     update_current_track_label()

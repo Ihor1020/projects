@@ -1,7 +1,7 @@
 import customtkinter as tk
 
 main_window = tk.CTk(fg_color="#808080")
-
+main_window.resizable(False, False)
 WIDTH = 454
 HEIGHT = 469
 
