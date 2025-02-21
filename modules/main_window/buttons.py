@@ -13,6 +13,7 @@ pygame.mixer.init()
 
 list_of_music = []
 current_music = None
+history_stack = []
 
 def play_music():
     global current_music, list_of_music
@@ -55,11 +56,27 @@ def delete_music():
     update_queue_label()
 
 def play_next_song():
+    global current_music, list_of_music, history_stack
     if list_of_music:
         next_song = list_of_music.pop(0)
         try:
+            if current_music:
+                history_stack.append(current_music)  # Добавляем текущую песню в историю
             pygame.mixer.music.load(next_song)
             pygame.mixer.music.play()
+            current_music = next_song
+            update_queue_label()
+        except pygame.error:
+            messagebox.showerror("Ошибка", f"Не удалось загрузить файл")
+
+def play_previous_song():
+    global current_music, history_stack
+    if history_stack:
+        previous_song = history_stack.pop()  # Получаем предыдущую песню из истории
+        try:
+            pygame.mixer.music.load(previous_song)
+            pygame.mixer.music.play()
+            current_music = previous_song
             update_queue_label()
         except pygame.error:
             messagebox.showerror("Ошибка", f"Не удалось загрузить файл")
@@ -166,6 +183,18 @@ def create_buttons(main_window):
                                 border_width=0,
                                )
     skip_button.place(x=274, y=165)
+
+    # "Предыдущая песня"
+    prev_button = tk.CTkButton(main_window, 
+                                image=Images.button_back,
+                                text="", 
+                                width=61,
+                                height=58,
+                                fg_color="#808080",  # Цвет фона кнопки
+                                hover_color="#808080",  # Цвет кнопки при наведении
+                                border_width=0,  # Убираем границу
+                                command=play_previous_song)
+    prev_button.place(x=376, y=165)
 
     # Кнопка "Перемешать"
     mix_music_button = tk.CTkButton(main_window,

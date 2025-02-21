@@ -10,3 +10,4 @@ class Images:
         Images.delete_image = ImageTk.PhotoImage(Image.open("images/Button Delete.png"))
         Images.mix_music = ImageTk.PhotoImage(Image.open("images/Button MIX.png"))
         Images.button_skip = ImageTk.PhotoImage(Image.open("images/Button _.png"))
+        Images.button_back = ImageTk.PhotoImage(Image.open("images/Button __.png"))
